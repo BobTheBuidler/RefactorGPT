@@ -60,7 +60,15 @@
   <textarea id="instruction" name="instruction" rows="20" cols="80" placeholder="rewrite this entire application" required></textarea>
   <br />
   <div style="display: flex; align-items: center; justify-content: space-between;">
-
+    <div>
+      <label for="presets">Presets:</label>
+      <select id="presets" name="presets" onchange="applyPreset()">
+        <option value="">Select a preset</option>
+        <option value="You are preset apt">Preset A</option>
+        <option value="You are preset bpt">Preset B</option>
+        <option value="You are preset cpt">Preset C</option>
+      </select>
+    </div>
     <div>
       <label for="models">Select Model:</label>
       <select id="models" name="models">
@@ -69,7 +77,6 @@
         <option>gpt-3.5-turbo</option>
       </select>
     </div>
-
   </div>
   <div style="display: flex; align-items: center;">
     <button id="send-to-openai" style="margin-right: 10px">Refactor!!!</button>
@@ -85,6 +92,11 @@
   <br />
   
   <script>
+    function applyPreset() {
+      const presetValue = document.getElementById('presets').value;
+      document.getElementById('instruction').value = presetValue;
+    }
+
     document.getElementById('repo-form').addEventListener('submit', async (event) => {
       event.preventDefault();
       const repoUrl = document.getElementById('repo-url').value.split('github.com/')[1];
@@ -177,10 +189,6 @@
         }
       }
     }
-    document.getElementById('save-api-key').addEventListener('click', () => {
-      const apiKey = document.getElementById('openai-key').value;
-      localStorage.setItem('openai-api-key', apiKey);
-    });
 
     document.getElementById('send-to-openai').addEventListener('click', async () => {
       const apiKey = localStorage.getItem('openai-api-key') || document.getElementById('openai-key').value;
